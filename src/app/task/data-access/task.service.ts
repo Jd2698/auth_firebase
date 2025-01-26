@@ -4,7 +4,10 @@ import {
 	addDoc,
 	collection,
 	Firestore,
-	collectionData
+	collectionData,
+	doc,
+	getDoc,
+	updateDoc
 } from '@angular/fire/firestore'
 import { catchError, Observable, tap, throwError } from 'rxjs'
 
@@ -47,9 +50,16 @@ export class TaskService {
 
 	constructor() {}
 
+	getTask(id: string) {
+		const docRes = doc(this._collection, id)
+		return getDoc(docRes)
+	}
 	create(task: TaskCreate) {
 		return addDoc(this._collection, task)
 	}
 
-	findAll() {}
+	update(task: TaskCreate, id: string) {
+		const docRes = doc(this._collection, id)
+		return updateDoc(docRes, task)
+	}
 }

@@ -15,7 +15,7 @@ export class TableComponent {
 
 	constructor() {
 		effect(() => {
-			console.log(this.tasks())
+			// console.log(this.tasks())
 		})
 	}
 }
