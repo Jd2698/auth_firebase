@@ -1,0 +1,51 @@
+<form
+	class="m-auto max-w-screen-sm space-y-4 md:space-y-6"
+	[formGroup]="formGroup"
+	(ngSubmit)="submit()"
+>
+	<div>
+		<label
+			for="title"
+			class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+			>Title</label
+		>
+		<input
+			formControlName="title"
+			type="title"
+			name="title"
+			id="title"
+			class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+		/>
+		@if (getValidate('title', 'required')) {
+		<small class="text-red-400">Title is required</small>
+		} @else if (getValidate('title', 'minlength')) {
+		<small class="text-red-400"> Equal to or greater than 7 </small>
+		}
+	</div>
+	<div>
+		<label class="inline-flex items-center cursor-pointer">
+			<input
+				formControlName="completed"
+				name="completed"
+				type="checkbox"
+				class="sr-only peer"
+			/>
+			<div
+				class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"
+			></div>
+			<span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+				>Toggle me</span
+			>
+		</label>
+	</div>
+
+	<div class="">
+		<button
+			[disabled]="formGroup.invalid"
+			type="submit"
+			class="w-fit text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800"
+		>
+			{{ loading() ? 'Creating...' : 'create'}}
+		</button>
+	</div>
+</form>
