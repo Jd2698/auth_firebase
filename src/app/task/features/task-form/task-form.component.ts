@@ -15,7 +15,8 @@ import { Router } from '@angular/router'
 	standalone: true,
 	imports: [ReactiveFormsModule],
 	templateUrl: './task-form.component.html',
-	styles: ``
+	styles: ``,
+	providers: [TaskService]
 })
 export default class TaskFormComponent {
 	loading = signal(false)

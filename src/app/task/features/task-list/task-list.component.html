@@ -7,7 +7,14 @@
 </button>
 
 @if(tasksService.loading()){
-<p>Loading...</p>
+<div class="flex justify-center">
+	<div
+		class="w-fit px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200"
+	>
+		loading...
+	</div>
+</div>
+
 }@else {
 <app-table [tasks]="tasksService.getTasks()" (deleteTask)="delete($event)" />
 }

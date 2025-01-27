@@ -8,7 +8,9 @@ import {
 	doc,
 	getDoc,
 	updateDoc,
-	deleteDoc
+	deleteDoc,
+	query,
+	where
 } from '@angular/fire/firestore'
 import { catchError, Observable, tap, throwError } from 'rxjs'
 import { AuthStateService } from '../../shared/data-access/auth-state.service'
@@ -21,22 +23,25 @@ export interface Task {
 	completed: boolean
 }
 
-export type TaskCreate = Omit<Task, 'id'>
+export type TaskCreate = Omit<Task, 'id'> & {
+	userId: string
+}
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 export class TaskService {
 	private _firestore = inject(Firestore)
 	private _authState = inject(AuthStateService)
 	private _collection = collection(this._firestore, PATH)
 
+	private _query = query(
+		this._collection,
+		where('userId', '==', this._authState.currertUser?.uid)
+	)
+
 	loading = signal<boolean>(true)
 
 	getTasks = toSignal(
-		(collectionData(this._collection, { idField: 'id' }) as Observable<
-			Task[]
-		>).pipe(
+		(collectionData(this._query, { idField: 'id' }) as Observable<Task[]>).pipe(
 			tap(() => {
 				this.loading.set(false)
 			}),
@@ -60,12 +65,18 @@ export class TaskService {
 		return getDoc(docRes)
 	}
 	create(task: TaskCreate) {
-		return addDoc(this._collection, task)
+		return addDoc(this._collection, {
+			...task,
+			userId: this._authState.currertUser?.uid
+		})
 	}
 
 	update(task: TaskCreate, id: string) {
 		const docRes = doc(this._collection, id)
-		return updateDoc(docRes, task)
+		return updateDoc(docRes, {
+			...task,
+			userId: this._authState.currertUser?.uid
+		})
 	}
 
 	delete(id: string) {

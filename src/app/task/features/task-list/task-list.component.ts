@@ -9,7 +9,8 @@ import { toast } from 'ngx-sonner'
 	standalone: true,
 	imports: [TableComponent, RouterLink],
 	templateUrl: './task-list.component.html',
-	styles: ``
+	styles: ``,
+	providers: [TaskService]
 })
 export default class TaskListComponent {
 	tasksService = inject(TaskService)
