@@ -7,9 +7,11 @@ import {
 	collectionData,
 	doc,
 	getDoc,
-	updateDoc
+	updateDoc,
+	deleteDoc
 } from '@angular/fire/firestore'
 import { catchError, Observable, tap, throwError } from 'rxjs'
+import { AuthStateService } from '../../shared/data-access/auth-state.service'
 
 const PATH = 'tasks'
 
@@ -26,6 +28,7 @@ export type TaskCreate = Omit<Task, 'id'>
 })
 export class TaskService {
 	private _firestore = inject(Firestore)
+	private _authState = inject(AuthStateService)
 	private _collection = collection(this._firestore, PATH)
 
 	loading = signal<boolean>(true)
@@ -48,7 +51,9 @@ export class TaskService {
 		}
 	)
 
-	constructor() {}
+	constructor() {
+		// console.log(this._authState.currertUser)
+	}
 
 	getTask(id: string) {
 		const docRes = doc(this._collection, id)
@@ -61,5 +66,10 @@ export class TaskService {
 	update(task: TaskCreate, id: string) {
 		const docRes = doc(this._collection, id)
 		return updateDoc(docRes, task)
+	}
+
+	delete(id: string) {
+		const docRes = doc(this._collection, id)
+		return deleteDoc(docRes)
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core'
+import { Component, effect, EventEmitter, input, output, Output } from '@angular/core'
 import { Task } from '../../data-access/task.service'
 import { RouterLink } from '@angular/router'
 
@@ -11,11 +11,12 @@ import { RouterLink } from '@angular/router'
 })
 export class TableComponent {
 	tasks = input.required<Task[]>()
-	tasksArray!: []
+	// @Output() deleteTask = new EventEmitter<string>()
+	deleteTask = output<string>()
 
-	constructor() {
-		effect(() => {
-			// console.log(this.tasks())
-		})
+	constructor() {}
+
+	onDelete(id: string) {
+		this.deleteTask.emit(id)
 	}
 }

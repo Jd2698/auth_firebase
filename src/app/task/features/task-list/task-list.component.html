@@ -9,5 +9,5 @@
 @if(tasksService.loading()){
 <p>Loading...</p>
 }@else {
-<app-table [tasks]="tasksService.getTasks()" />
+<app-table [tasks]="tasksService.getTasks()" (deleteTask)="delete($event)" />
 }

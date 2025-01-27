@@ -66,7 +66,7 @@ export default class TaskFormComponent {
 				await this._taskService.create(this.formGroup.value)
 			}
 
-			toast(`Task ${this.id() ? 'updated' : 'created'} successfully`)
+			toast(`Successfully ${this.id() ? 'updated' : 'created'}`)
 
 			this._router.navigateByUrl('/tasks')
 			this.loading.set(false)
